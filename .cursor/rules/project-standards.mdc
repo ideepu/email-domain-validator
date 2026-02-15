@@ -1,0 +1,30 @@
+---
+description: Core coding standards, linters, check rules before commands, and Git workflow
+alwaysApply: true
+---
+
+
+# Cursor Rules — Open Source Python Fraud Detection
+
+## Check Rules Before Commands
+
+Before running read the relevant rule (e.g. `package-management.md` for package management) and follow it—use full paths for executables, request the permissions it specifies, and apply any other instructions. Do this at the start of the task.
+
+## Coding Guidelines
+
+- follow the rules in `./project-standards/coding-guidelines.mdc`
+
+## Linters
+
+- follow the rules in `./project-standards/linting-guidelines.mdc`
+
+## Imports
+
+- Always organize imports with ruff (e.g. `ruff check --fix` or `ruff format`; use project’s configured rule set).
+- Do not import any modules in `__init__.py`; only re-export symbols (e.g. from submodules) so package roots stay thin and avoid circular or heavy import side effects.
+
+## Tests
+
+## Dependencies Management
+
+- When managing the project dependencies read and follow rules from `package-management.md`

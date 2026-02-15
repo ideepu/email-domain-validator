@@ -1,0 +1,24 @@
+---
+alwaysApply: true
+---
+
+# Agent Guidelines for Python Projects
+
+Rules and guidelines for AI agents and developers. **Do not duplicate these rules here—read and follow the referenced files.**
+
+## Where to Look
+
+- **General Cursor guidance**  
+  → `.cursor/rules/rules-management.mdc`
+
+- **Core standards**  
+  → `.cursor/rules/project-standards.mdc`
+
+- **Dependencies management**  
+  → `.cursor/rules/package-management.md`
+
+- **Email validation and domain spam/fraud (Python)**  
+  → `.cursor/rules/email-domain-validation.mdc`
+
+- **Other project rules**  
+  → Rule files at repo root (read the rule that applies to the task before running commands)

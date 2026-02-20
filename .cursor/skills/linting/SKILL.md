@@ -13,18 +13,20 @@ pre-commit.
 
 ## Workflow
 
-1. **Default**: Run all linters via pre-commit.
+1. **venv**: Always run all the python packages from `.venv/bin/`
+
+2. **Default**: Run all linters via pre-commit.
    - First run `pre-commit autoupdate` before running the linters.
    - From project root: `pre-commit run --all-files`
    - Install hooks first if needed: `pre-commit install`
 
-2. **Single tool** (only when the user asks for one):
+3. **Single tool** (only when the user asks for one):
    - Ruff: `ruff check .` then `ruff format .` (or `ruff check --fix`)
    - Pylint: `pylint src/` (or paths given)
    - Mypy: `mypy src/`
    - Markdownlint: as in `.pre-commit-config.yaml` for `*.md`
 
-3. **Fix then verify**:
+4. **Fix then verify**:
    - Organize the import with ruff
    - Always use full paths to the ruff executable. Run check first, then format:
 

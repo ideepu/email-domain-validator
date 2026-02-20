@@ -18,6 +18,10 @@ Before running read the relevant rule (e.g. `package-management.md` for package 
 
 - follow the rules in `./project-standards/linting-guidelines.mdc`
 
+## Documentation
+
+- follow the rules in `./project-standards/documentation-guidelines.mdc`
+
 ## Imports
 
 - Always organize imports with ruff (e.g. `ruff check --fix` or `ruff format`; use project’s configured rule set).

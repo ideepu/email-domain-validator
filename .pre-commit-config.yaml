@@ -40,7 +40,6 @@ repos:
         entry: pylint
         language: system
         types: [python]
-        # args: ["-sn", "--rcfile=pyproject.toml"]
 
   - repo: local
     hooks:

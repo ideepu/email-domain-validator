@@ -26,8 +26,9 @@ fix commit hook failures, or write a commit message.
 1. **Check status**: `git status` from repo root.
 2. **Stage**: `git add <paths>` or `git add -A` (use specific paths when appropriate).
 3. **Hooks**: This project uses pre-commit (ruff, bandit, pylint, mypy,
-   markdownlint). Fix reported issues; never use `git commit --no-verify`.
-4. **Confirmation**: Must prompt the user for confirmation before
+   markdownlint). Fix reported issues.
+4. **Never use** `git commit --no-verify`.
+5. **Confirmation**: Must prompt the user for confirmation before
    committing the changes.
 
 ## Commit
@@ -35,7 +36,6 @@ fix commit hook failures, or write a commit message.
 - Commit message must match:
   `^(chore|test|setup|feature|fix|build|docs|refactor|release)!?: .+`
 - Prefer short, descriptive (e.g. "feature: Add MX/SPF checks").
-- Do not include "Co-authored-by" from Cursor.
 - From repo root: `git commit -m "message"` or `git commit` for editor.
 - If hooks block the commit, fix issues (see linting skill).
 

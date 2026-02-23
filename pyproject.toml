@@ -3,26 +3,22 @@ name = "email-domain-validator"
 version = "0.1.0"
 description = "Validate email and domain (MX, SPF, DMARC, DKIM, SSL)"
 readme = "README.md"
-requires-python = ">=3.14"
-dependencies = [
-    "email-validator",
-    "dnspython",
-    "cryptography",
-]
+requires-python = ">=3.10"
+dependencies = ["email-validator", "dnspython", "cryptography"]
 
 [project.optional-dependencies]
-dev = [
-    "pytest>=7.0.0",
-    "ruff>=0.1.0",
-    "pylint>=3.0.0",
-    "mypy>=1.0.0",
-    "pre-commit>=3.0.0",
-]
+dev = ["pytest>=7.0.0", "ruff>=0.1.0", "pylint>=3.0.0", "mypy>=1.0.0", "pre-commit>=3.0.0"]
 
-[tool.uv]
-package = false
+[project.scripts]
+email-domain-validator = "src:main"
 
-[tool.uv.sources]
+[build-system]
+requires = ["uv_build>=0.10.4,<0.11.0"]
+build-backend = "uv_build"
+
+[tool.uv.build-backend]
+module-name = "src"
+module-root = ""
 
 [tool.ruff]
 line-length = 120
@@ -38,11 +34,7 @@ quote-style = "single"
 exclude_dirs = ["tests"]
 
 [tool.pylint.messages_control]
-disable = [
-    "C0114",
-    "C0115",
-    "C0116",
-]
+disable = ["C0114", "C0115", "C0116"]
 
 [tool.pylint.format]
 max-line-length = 120
@@ -54,4 +46,3 @@ warn_unused_ignores = true
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-

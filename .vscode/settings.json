@@ -11,4 +11,9 @@
   ],
   "python.testing.unittestEnabled": false,
   "python.testing.pytestEnabled": true,
+  "evenBetterToml.formatter.arrayAutoExpand": true,
+  "evenBetterToml.formatter.arrayTrailingComma": true,
+  "evenBetterToml.formatter.columnWidth": 120,
+  "evenBetterToml.formatter.trailingNewline": true,
+  "evenBetterToml.taplo.configFile.enabled": false,
 }

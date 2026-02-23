@@ -3,8 +3,8 @@ import dataclasses
 import json
 import sys
 
-from src.models import ValidationOptions
-from src.runner import validate_email_and_domain
+from .models import ValidationOptions
+from .runner import validate_email_and_domain
 
 
 def _build_parser() -> argparse.ArgumentParser:
@@ -41,7 +41,3 @@ def main(argv: list[str] | None = None) -> None:
     indent = None if args.compact else 2
     json.dump(dataclasses.asdict(result), sys.stdout, indent=indent)
     sys.stdout.write('\n')
-
-
-if __name__ == '__main__':
-    main()

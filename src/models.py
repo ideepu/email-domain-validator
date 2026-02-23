@@ -1,6 +1,6 @@
-from dataclasses import dataclass
+from dataclasses import asdict, dataclass
 from enum import Enum
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:
     from dns.resolver import Resolver
@@ -200,3 +200,6 @@ class EmailDomainValidationResult:  # pylint: disable=too-many-instance-attribut
     dmarc: DMARCVerificationReport
     dkim: DKIMVerificationReport
     ssl: SSLVerificationReport
+
+    def to_dict(self) -> dict[str, Any]:
+        return asdict(self)

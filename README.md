@@ -29,7 +29,7 @@ Output is JSON: `email_valid`, `normalized_email`, `domain`, and reports for
 **Library:**
 
 ```python
-from src.runner import validate_email_and_domain
+from email_domain_validator import validate_email_and_domain
 
 result = validate_email_and_domain('user@example.com')
 print(result.email_valid, result.mx.valid, result.spf.valid)

@@ -16,3 +16,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Domain checks: MX, SPF, DMARC, DKIM, SSL certificate.
 - CLI with `--timeout`, skip flags per check, and `--compact` JSON.
 - Library API: `validate_email_and_domain()`, `ValidationOptions`, `EmailDomainValidationResult`.
+- Exceptions: `DomainPolicyError`.

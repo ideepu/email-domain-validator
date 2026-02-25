@@ -37,12 +37,12 @@ def get_domain_policy_record(
     try:
         txt_records = res.resolve(qname=name, rdtype=RdataType.TXT, lifetime=timeout)
     except (dns.resolver.NoAnswer, dns.resolver.NXDOMAIN, dns.resolver.LifetimeTimeout) as e:
-        raise DomainPolicyError('Domain policy record not found', name=name) from e
+        raise DomainPolicyError('Domain policy record not found') from e
     for record in txt_records:
         record_text = ''.join(a.decode('utf-8') for a in record.strings)
         if marker in record_text and _is_policy_version_valid(record_text, marker):
             return record_text
-    raise DomainPolicyError('Domain policy record not found', name=name)
+    raise DomainPolicyError('Domain policy record not found')
 
 
 def _check_catchall(spf_record: str) -> CatchAllSecurityLevel | None:

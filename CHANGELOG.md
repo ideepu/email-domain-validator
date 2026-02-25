@@ -1,11 +1,18 @@
 # Changelog
 
-Notable changes to this project are listed here.
+All notable changes to this project will be documented in this file.
 
-## [0.1.0]
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## [Unreleased]
+
+## [0.1.0] - 2026-02-25
+
+### Added
 
 - Initial release.
-- Email validation (syntax and optional deliverability via MX).
-- Domain checks: MX, SPF, DMARC, DKIM, and SSL certificate.
-- CLI with JSON output and flags to skip individual checks.
-- Library API: `validate_email_and_domain()` and `ValidationOptions`.
+- Email validation (syntax; optional MX deliverability).
+- Domain checks: MX, SPF, DMARC, DKIM, SSL certificate.
+- CLI with `--timeout`, skip flags per check, and `--compact` JSON.
+- Library API: `validate_email_and_domain()`, `ValidationOptions`, `EmailDomainValidationResult`.

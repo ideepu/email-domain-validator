@@ -1,5 +1,4 @@
 import argparse
-import dataclasses
 import json
 import sys
 
@@ -39,5 +38,9 @@ def main(argv: list[str] | None = None) -> None:
     result = validate_email_and_domain(args.email, options=options)
 
     indent = None if args.compact else 2
-    json.dump(dataclasses.asdict(result), sys.stdout, indent=indent)
+    json.dump(result.to_dict(), sys.stdout, indent=indent)
     sys.stdout.write('\n')
+
+
+if __name__ == '__main__':
+    main()

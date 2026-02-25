@@ -35,6 +35,20 @@ Follow the project's documentation guidelines.
 - **Other:** API docs, architecture notes, or any Markdown in the repo
   intended for humans (not Cursor rules/skills).
 
+## How to write CHANGELOG
+
+- Do Not use `v` infront of the version for versioning in CHANGELOG
+- Use semantic versioning for versions in squared backets along with the date in
+  YYYY-MM-DD format. Example [1.0.1] - 2026-02-25
+- Follow the format declared here <https://keepachangelog.com/en/>
+- Add the type of change as heading
+  `Added` for new features.
+  `Changed` for changes in existing functionality.
+  `Deprecated` for soon-to-be removed features.
+  `Removed` for now removed features.
+  `Fixed` for any bug fixes.
+  `Security` in case of vulnerabilities.
+
 ## Workflow
 
 1. **Identify scope:** Which doc(s)—README, CONTRIBUTING, CHANGELOG, or

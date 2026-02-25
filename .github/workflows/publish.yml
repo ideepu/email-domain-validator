@@ -9,7 +9,7 @@ jobs:
   run:
     runs-on: ubuntu-latest
     environment:
-      name: pypi
+      name: testpypi
     permissions:
       id-token: write
       contents: read
@@ -24,3 +24,5 @@ jobs:
         run: uv build
       - name: Publish
         run: uv publish
+        env:
+          UV_PUBLISH_URL: https://test.pypi.org/legacy/

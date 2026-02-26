@@ -118,8 +118,7 @@ higher level business logic for final trust decisions.
 ### DKIM
 
 Checks for DKIM records at `<selector>._domainkey.<domain>`. The validator
-tries common selectors from [`DKIM_SELECTORS`](src/models.py#L79) and stops on
-the first valid record found.
+tries common DKIM selectors and stops on the first valid record found.
 
 In the worst case, this performs one DNS TXT lookup per selector candidate
 until a match is found (or candidates are exhausted).
@@ -141,8 +140,8 @@ hostname/chain trust validation.
 
 ## Result models
 
-Results are returned as dataclasses (for example: `EmailDomainValidationResult`,
-`SPFVerificationReport`). See `src/models.py` for the full model list.
+The library returns `EmailDomainValidationResult`; its attributes and nested
+report types are defined in `src/models.py`.
 
 ## Further validation
 

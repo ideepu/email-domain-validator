@@ -1,0 +1,57 @@
+[project]
+name = "email-domain-validator"
+version = "0.1.0"
+description = "Validate email and domain (MX, SPF, DMARC, DKIM, SSL)"
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = ["email-validator", "dnspython", "cryptography"]
+maintainers = [{ name = "Pradeep Tammali", email = "pradeeptammaliwork@gmail.com" }]
+license = "MIT"
+keywords = ["email", "domain", "validator", "mx", "spf", "dmarc", "dkim", "ssl"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "Topic :: Communications :: Email",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Programming Language :: Python :: 3.14",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=7.0.0", "ruff>=0.1.0", "pylint>=3.0.0", "mypy>=1.0.0", "pre-commit>=3.0.0"]
+
+[project.scripts]
+email-domain-validator = "email_domain_validator.cli:main"
+
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.package-dir]
+email_domain_validator = "src"
+
+[tool.ruff]
+line-length = 120
+target-version = "py314"
+
+[tool.ruff.lint]
+select = ["E", "F", "I"]
+
+[tool.ruff.format]
+quote-style = "single"
+
+[tool.bandit]
+exclude_dirs = ["tests"]
+
+[tool.pylint.messages_control]
+disable = ["C0114", "C0115", "C0116"]
+
+[tool.pylint.format]
+max-line-length = 120
+
+[tool.mypy]
+python_version = "3.14"
+warn_return_any = true
+warn_unused_ignores = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

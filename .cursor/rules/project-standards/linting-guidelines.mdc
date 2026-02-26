@@ -1,0 +1,31 @@
+---
+description: Linting rules
+globs: ["**/*.py", "**/*.md", ".pre-commit-config.yaml", "pyproject.toml"]
+alwaysApply: false
+---
+
+# Linting guidelines
+
+## General
+
+- Use the linting skill `.cursor/skills/linting/SKILL.md`
+- Always run the linters in virtual env and with pre commit
+- Run individual linters only when explicitly asked
+- Always keep the linters configuration in `pyproject.toml`
+- Ask before updating the configuration in `pyproject.toml`
+
+- **Use pre-commit for managing linters.**
+All lint checks run via pre-commit. Install hooks with `pre-commit install`;
+Run run manually with `pre-commit run --all-files`.Always take the linters configration from `pyproject.toml` and refer the pre-commit linters to `pyproject.toml` config. If linters are failed, try `pre-commit autoupdate` and then run the linters again. If the linters still fail, then try resolving the issues as per the guidelines
+
+## Individual linters
+
+- **Ruff**: Primary linter and formatter for Python. Use project config in `pyproject.toml`; run `ruff check` and `ruff format` (or via pre-commit).
+- **Pylint**: Use for extra static checks. Config in `pyproject.toml`; run in pre-commit
+- **Mypy**: Use for type checking. Config in `pyproject.toml`; run in pre-commit.
+- **Markdownlint**: Use for Markdown. Config via `.markdownlint.yaml` or in pre-commit args; enforce in pre-commit.
+
+## Running
+
+- Pre-commit: Run `pre-commit run --all-files` (or rely on the git hook), if failed run `pre-commit autoupdate` and run `pre-commit run --all-files` then proceed.
+- Individual tools (full paths / from project root): `ruff check .`, `ruff format .`, `pylint src/`, `mypy src/`, `markdownlint '**/*.md'` (or as in `.pre-commit-config.yaml`).

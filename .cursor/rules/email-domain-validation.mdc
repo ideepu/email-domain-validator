@@ -1,0 +1,83 @@
+---
+description: Python standards for email validation and domain spam/fraud checks
+globs: "**/*.py"
+alwaysApply: false
+---
+
+# Email Validation and Domain Spam/Fraud Standards
+
+Apply when writing or reviewing Python code that validates emails or checks domains for deliverability, spam, or fraud.
+
+---
+
+## Email Validation
+
+- **Use a dedicated library.** Prefer `email_validator.validate_email()` (RFC 5321/5322–aligned). Do not rely on regex-only validation for critical paths (sign-up, password reset, payments).
+- **Handle validation errors.** Catch the library’s specific exception (e.g. `EmailNotValidError`) and map to your API or domain errors; see **Error handling** below. Do not expose raw exception messages to callers; log them instead.
+- **Deliverability.** Use `check_deliverability=True` when you need MX lookups (e.g. sign-up). Omit or set `False` when only syntax/normalization is needed to avoid unnecessary DNS.
+- **Normalization.** Store and compare using the normalized form (e.g. returned `.normalized` / punycode for internationalized domains). Trim and lowercase only when the library documents it.
+- **Length and structure.** Respect local-part and domain-part length limits; avoid ad-hoc length checks that conflict with the library or RFCs.
+
+```python
+# Good: validate, normalize, handle library exception
+from email_validator import validate_email, EmailNotValidError
+
+try:
+    result = validate_email(email, check_deliverability=need_mx)
+    normalized = result.normalized
+except EmailNotValidError as e:
+    logger.debug("Invalid email", extra={"reason": str(e)})
+    raise ValidationError("Invalid email address")
+```
+
+---
+
+## Error Handling
+
+- **Catch specific exceptions.** For email validation: catch the library’s exception (e.g. `EmailNotValidError`). For DNS/domain checks: catch resolver and network exceptions (e.g. `dns.resolver.NXDOMAIN`, `dns.resolver.NoAnswer`, `dns.resolver.LifetimeTimeout`, `socket.timeout`, `OSError`). Do not catch bare `Exception` unless you re-raise or log and then raise a domain-specific exception.
+- **Preserve cause chain.** When re-raising, use `raise DomainError("...") from e` so the original exception is available for debugging and logging.
+- **Map to domain/API errors.** Map library and DNS failures to a small set of caller-facing outcomes (e.g. `invalid_email`, `domain_unreachable`, `policy_check_failed`). Use project or domain exception types rather than generic `ValueError`/`RuntimeError` where the codebase defines them.
+- **Log before re-raising.** Log at debug (or appropriate) level with full context: exception type, message, and safe identifiers (e.g. domain, not full email). Do not log full user input in production if it might be sensitive; redact or hash if needed.
+- **What to return vs raise.** For validation: invalid input usually means raise (or return a structured validation result). For optional checks (e.g. SPF/DMARC): prefer returning a result object with `valid: bool` and optional details rather than raising on missing or misconfigured records, so callers can decide.
+- **Timeouts and retries.** Set explicit timeouts on DNS and network calls; on timeout, treat as unreachable (or retry with backoff if your policy allows). Do not retry indefinitely. Log timeout events.
+- **No sensitive data in messages.** Do not include user emails, raw DNS responses, or internal hostnames in exception messages or API error bodies. Use generic messages (e.g. "Invalid email", "Domain check failed") and put details in logs.
+
+```python
+# Good: specific catch, log, preserve cause, domain exception
+try:
+    result = validate_email(email, check_deliverability=True)
+    return result.normalized
+except EmailNotValidError as e:
+    logger.debug("Email validation failed", extra={"reason": str(e)})
+    raise ValidationError("Invalid email address") from e
+except dns.resolver.LifetimeTimeout:
+    logger.warning("MX lookup timed out", extra={"domain": domain})
+    raise DomainUnreachableError("Could not verify domain") from None
+```
+
+---
+
+## Domain and Spam/Fraud Checks
+
+- **MX records.** Verify the domain has at least one MX (or fallback A/AAAA for delivery). Use DNS timeouts (e.g. 5s) and bounded retries.
+- **SPF (RFC 7208).** Parse `v=spf1` and interpret the terminating mechanism for risk: `-all` (strict), `~all` (softfail), `?all` (neutral), `+all`/`all` (permissive—treat as weak for trust). Reject or flag deprecated mechanisms (e.g. `ptr`) per RFC.
+- **DMARC.** Check for `_dmarc.<domain>` TXT with `v=DMARC1` when assessing domain authenticity. Use a proper parser or well-tested library for policy interpretation.
+- **DKIM.** If verifying signing, look up selector `._domainkey.<domain>` TXT; use a small set of common selectors for discovery and cap total DNS lookups (e.g. 10–40) to avoid abuse.
+- **Timeouts and limits.** Set timeouts on all DNS and network calls. Limit include/redirect depth and total lookups for SPF to avoid DoS (RFC 7208 recommends at most 10 DNS lookups).
+- **Optional.** Consider blocklists for disposable/temporary domains and confusable/homograph domains for higher-assurance flows.
+
+---
+
+## Security and Robustness
+
+- **Error messages.** Do not include user-controlled input or internal details in responses. Log full context server-side. See **Error handling** for specifics.
+- **Exceptions.** Use project or domain-specific exception types for validation and policy failures; avoid leaking DNS or internal state to clients. Preserve cause when re-raising.
+- **Types.** Use type hints and clear return types (e.g. dataclasses or typed dicts) for verification results (valid/invalid, records, risk level).
+- **Logging.** Log validation and policy failures at an appropriate level: debug for expected invalid input, warning for timeouts or misconfigurations, error for unexpected failures.
+
+---
+
+## References
+
+- RFC 5321 (SMTP), RFC 5322 (message format), RFC 7208 (SPF), RFC 7489 (DMARC)
+- `email_validator` for parsing and normalization; use DNS libraries (e.g. `dnspython`) with timeouts for MX/SPF/DMARC/DKIM lookups

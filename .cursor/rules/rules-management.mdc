@@ -1,0 +1,45 @@
+---
+description: General Cursor guidance—rules, suggestions, chat, edits; concise explanations; rule organization
+alwaysApply: true
+---
+
+# General Rules
+
+Apply to all Cursor behavior: rules, code suggestions, chat replies, edits, completions, and any other guidance.
+
+---
+
+## Be concise and direct
+
+- **Keep explanations short.** Prefer brief, actionable answers. Avoid long messages unless they are needed.
+- **Use judgment.** Expand only when it’s important—e.g. non-obvious reasoning, security/correctness, or user explicitly asking for detail. For routine fixes or clear requests, a short summary or inline comment is enough.
+- **Don’t over-explain by default.** Skip lengthy preambles, repeated caveats, and step-by-step narration for simple tasks. If in doubt, err on the side of concise.
+
+---
+
+## Rule organization (when creating or editing project rules)
+
+When creating, updating, or describing project rules, follow this structure:
+
+### 1. Group rules together
+
+- Keep all Cursor rule files at the **repo root** (this project is for prepping rules; no `.cursor` folder).
+- Keep related docs together (e.g. `project-standards.mdc`, `rules-management.mdc` at root). The canonical list of rule *references* lives in the main file.
+
+### 2. Keep rules separate
+
+- **One concern per file.** Use separate rule files for distinct topics (e.g. `testing-guidelines.mdc`, `rules-management.mdc`, file-specific rules by glob).
+- Do not merge unrelated rules into a single file.
+
+### 3. Refer rules in the main file
+
+- **Main file:** `.cursor/rules/Guidelines.mdc` at the repo root. List each rule file there with a short label and path; do not copy full content into `cursor/rules/Guidelines.mdc`.
+- When adding a new rule file, add a corresponding entry in `cursor/rules/Guidelines.mdc` or associated sub rule file wherever it suits the best to follow the existing strucuture.
+- When using the skill for a any rule read the general guidelines from `.cursor/skills/README.mdc`
+
+Example in `cursor/rules/Guidelines.mdc`:
+
+```markdown
+- **Topic or label**  
+  → `rule-file.mdc`
+```

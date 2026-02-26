@@ -1,0 +1,37 @@
+---
+description: Open source documentation standards for the project
+globs: ["**/*.md", "**/README*", "**/CONTRIBUTING*", "**/CHANGELOG*", ".cursor/**/*.md", ".cursor/**/*.mdc"]
+alwaysApply: false
+---
+
+# Documentation Guidelines
+
+General open source documentation standards. Apply when writing or editing README, CONTRIBUTING, changelogs, or Cursor rules/skills.
+
+Use the writing documentation skill `.cursor/skills/writing-documentation/SKILL.md`
+
+## Structure and clarity
+
+- **One main idea per section.** Use clear headings (sentence case or title case; pick one and stay consistent).
+- **Lead with purpose.** README: what the project does, who it’s for, and how to run/use it in under a minute.
+- **Code examples:** Use fenced code blocks with language tags (e.g. ` ```bash `, ` ```python `). Show minimal, runnable examples.
+- **Docs as code.** Prefer Markdown; keep docs in the repo and review them in the same PRs as code changes.
+
+## Required docs (open source)
+
+- **README:** Purpose, install/quick start, basic usage, link to CONTRIBUTING and license.
+- **LICENSE:** Clear and present at repo root.
+- **CONTRIBUTING** (optional but recommended): How to set up, run tests, and submit changes.
+- **CHANGELOG** (optional): Human-readable list of notable changes per version for users and maintainers.
+
+## Style and inclusivity
+
+- Use plain language; avoid jargon unless the audience expects it.
+- Prefer inclusive wording (e.g. “they” as neutral, “allowlist/denylist” where appropriate).
+- Keep sentences and paragraphs short. Use lists for steps or options.
+
+## Maintenance
+
+- Update docs when behavior or APIs change; treat doc updates as part of the change.
+- Don’t duplicate the same information in many places; link to a single source of truth.
+- For Cursor rules and skills: keep them concise; reference other rule/skill files instead of inlining long content.

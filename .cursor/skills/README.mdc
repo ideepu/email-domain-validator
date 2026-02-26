@@ -1,0 +1,53 @@
+# Project skills
+
+Cursor **skills** in this directory teach the agent how to perform specific tasks for this project. They are separate from **rules** (see `.cursor/rules/Guidelines.mdc` and `.cursor/rules/`), which define standards and conventions.
+
+## Directory layout
+
+Each skill is a subdirectory with a `SKILL.md` file:
+
+```text
+.cursor/skills/
+├── README.md
+└── skill-name/
+    ├── SKILL.md           # Required – main instructions
+    ├── reference.md       # Optional – detailed docs
+    └── scripts/           # Optional – utility scripts
+```
+
+## SKILL.md format
+
+Every skill needs a `SKILL.md` with YAML frontmatter and a markdown body:
+
+```yaml
+---
+name: skill-name
+description: Brief description of what this skill does and when to use it (third person; include trigger terms)
+---
+
+# Skill title
+
+## Instructions
+Step-by-step guidance for the agent.
+```
+
+- **name**: lowercase, letters/numbers/hyphens only, max 64 chars.
+- **description**: non-empty, max 1024 chars; include both *what* the skill does and *when* the agent should use it so the agent can discover it.
+
+## Adding a skill
+
+1. Create a subdirectory: `.cursor/skills/your-skill-name/`.
+2. Add `SKILL.md` with the frontmatter and instructions.
+3. Optionally add `reference.md` or `scripts/` for extra docs or runnable helpers.
+
+## Best practices
+
+- Keep `SKILL.md` under ~500 lines; put long reference material in separate files.
+- Write the description in third person with clear trigger terms (e.g. “Use when working with SPF/DKIM/DMARC…”).
+- Prefer one concern per skill; use multiple skills instead of one large file.
+- Use consistent terminology and concrete examples.
+
+## Relation to rules
+
+- **Rules** (`.cursor/rules/`, `Guidelines.mdc`): coding standards, dependencies, validation patterns, security — applied per conversation or by glob.
+- **Skills** (this directory): task-specific workflows the agent can invoke when relevant (e.g. “run email domain checks”, “generate a validation report”).

@@ -1,0 +1,101 @@
+---
+alwaysApply: true
+---
+# Coding Guidelines
+
+## General rules
+
+- Must follow the python version guilines and PEP8 rules as per the version mentioned in the `pyproject.toml`.
+- Always take permission and prompt user before changing package versions or configuration changes.
+- Do not write module, class, function docs unless explicityly asked
+- always run ruff format and organise import when changes are made in the file
+- Do not add import in any `__init__.py` file
+
+## Type hints and annotations
+
+- Use `if TYPE_CHECKING:` for type-only imports; avoid `from __future__ import annotations`
+- Use quoted forward references (e.g. `"Bar"`, `list["Bar"]`) when needed instead of `from __future__ import annotations`
+
+## Code style (Python)
+
+- **Single quotes always.** Use `'...'` for strings. Enforced by Ruff formatter in `pyproject.toml` (`[tool.ruff.format] quote-style = "single"`).
+- **F-strings always.** Prefer `f"…"` (with single-quoted outer form per above: `f'…'`) over `%` or `.format()` for interpolation.
+- **Type hints always.** Annotate function parameters and return types (and module-level names where helpful). Mypy must pass.
+- **Organise imports always.** Use Ruff’s import sorter (`I` rules); run `ruff check --fix` / `ruff format` so imports are grouped and ordered per project config.
+
+---
+
+## Core Principles
+
+- Follow RORO (Receive Object, Return Object) for all tool interfaces.
+- Modular, reusable functions; descriptive snake_case names.
+- Deterministic and testable logic.
+- Keep dependencies minimal and open-source friendly.
+- Async for network/I/O-bound tasks, sync for CPU-bound tasks.
+- Dependency injection for shared resources.
+- No global mutable state.
+- Design for CLI and optional REST API.
+
+---
+
+## Validation & Input Handling
+
+- Normalize and sanitize inputs.
+- Guard clauses and early returns for invalid data.
+- Never trust external sources blindly.
+
+---
+
+## Security Guidelines
+
+- Mask or hash PII in logs.
+- No hardcoded secrets; use environment variables.
+- Use secure defaults (TLS 1.2+ for network operations).
+- Rate-limit external calls; implement backoff.
+- No shell commands with unsanitized input.
+- Centralized exception handling.
+
+---
+
+## Performance & Reliability
+
+- Async for network, DNS, or API calls.
+- Batch or chunk large datasets.
+- Lazy-load heavy data (e.g., threat feeds).
+
+---
+
+## Error Handling
+
+- Use custom exceptions
+- Keep happy path last; avoid nested conditionals.
+- Log structured errors with context (module, function, params).
+- Map internal errors to user-friendly messages.
+- Re raise from exceptions wherever possible
+
+---
+
+## Logging & Observability
+
+- Use structured JSON logging.
+- Include trace IDs for distributed tasks.
+- Track measurable metrics: latency, false positives, signal counts.
+
+---
+
+## Testing & Open-Source Standards
+
+- Use pytest and pytest-xdist.
+- Mock external services for tests.
+- Test edge cases: malformed inputs, enrichment failures, high-risk scenarios.
+- Ensure deterministic scoring.
+- Maintain good coverage, but keep tests lightweight for community contributors.
+
+---
+
+## Prohibited Practices
+
+- No blocking I/O without timeout.
+- No mixing enrichment and scoring logic.
+- No monolithic scripts.
+- No exposing secrets or internal stack traces.

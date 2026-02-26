@@ -1,0 +1,29 @@
+# Virtual environments
+venv/
+.venv/
+env/
+.env/
+.env.local
+*cache*
+
+# Bytecode and caches
+__pycache__/
+*_cache*
+
+*.py[cod]
+*.pyc
+*$py.class
+*.so
+.mypy_cache/
+.ruff_cache/
+
+# Distribution
+*.egg-info/
+.eggs/
+dist/
+build/
+
+# IDE
+.idea/
+*.swp
+*.swo

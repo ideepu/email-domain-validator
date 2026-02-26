@@ -1,0 +1,35 @@
+---
+alwaysApply: false
+---
+
+# Package Management with `uv`
+
+These rules define strict guidelines for managing Python dependencies in this project using the `uv` dependency manager.
+
+## Use `uv` exclusively
+
+- All Python dependencies **must be installed, synchronized, and locked** using `uv`.
+- Never use `pip`, `pip-tools`, or `poetry` directly for dependency management.
+
+## Use latest package versions
+
+- When **adding** dependencies, use the **latest** available version: run `uv add <package>` **without** a version pin so `uv` resolves the latest release.
+- When **upgrading** existing dependencies to latest, run `uv lock --upgrade` then `uv sync` (or `uv add <package> --upgrade` per package).
+- Do not pin to an old version in `pyproject.toml` unless there is a known compatibility reason; prefer minimum bounds (e.g. `>=3.0.0`) only when necessary for the project’s supported range.
+
+## Managing dependencies
+
+```bash
+# Add dependency at latest version (no pin)
+uv add <package>
+
+# Upgrade all dependencies to latest and refresh lockfile
+uv lock --upgrade
+uv sync
+
+# Remove dependency
+uv remove <package>
+
+# Reinstall from lock file
+uv sync
+```

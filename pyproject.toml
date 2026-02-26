@@ -5,6 +5,16 @@ description = "Validate email and domain (MX, SPF, DMARC, DKIM, SSL)"
 readme = "README.md"
 requires-python = ">=3.14"
 dependencies = ["email-validator", "dnspython", "cryptography"]
+maintainers = [{ name = "Pradeep Tammali", email = "pradeeptammaliwork@gmail.com" }]
+license = "MIT"
+keywords = ["email", "domain", "validator", "mx", "spf", "dmarc", "dkim", "ssl"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "Topic :: Communications :: Email",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Programming Language :: Python :: 3.14",
+]
 
 [project.optional-dependencies]
 dev = ["pytest>=7.0.0", "ruff>=0.1.0", "pylint>=3.0.0", "mypy>=1.0.0", "pre-commit>=3.0.0"]

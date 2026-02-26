@@ -99,7 +99,7 @@ SPF check is marked invalid. When found, additional SPF checks are performed,
 including:
 
 - qualifier analysis for broad/catch-all sender matching behavior
-- detection of deprecated mechanisms such as `ptr`
+- detection of `ptr` deprecated mechanism
 - extraction and validation of declared IPv4/IPv6 addresses
 - recursive extraction of `include` domains (maximum 10 DNS lookups)
 
@@ -125,7 +125,7 @@ In the worst case, this performs one DNS TXT lookup per selector candidate
 until a match is found (or candidates are exhausted).
 
 Because selector usage varies by provider and deployment age, this check
-targets commonly used selectors as a practical 'likely configured' signal. It
+targets commonly used selectors as a practical "likely configured" signal. It
 validates selector/key record presence at the DNS level and does not verify
 end-to-end DKIM message signatures.
 

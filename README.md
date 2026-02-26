@@ -154,7 +154,8 @@ role-based address intelligence, plus your own context-specific policies.
 
 Examples:
 
-- [disposable-email-domains](https://github.com/disposable-email-domains/disposable_email_blocklist.conf)
+- [disposable](<https://github.com/disposable>)
+- [disposable-email-domains](https://github.com/disposable-email-domains)
 - [disposable-email-domains (ivolo)](https://github.com/ivolo/disposable-email-domains)
 - [role-based-email-addresses](https://github.com/mixmaxhq/role-based-email-addresses)
 

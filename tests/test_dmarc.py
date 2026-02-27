@@ -42,6 +42,14 @@ def test_correct_dns_name_and_marker() -> None:
     assert result.record == 'v=DMARC1; p=none'
 
 
+def test_no_record_found() -> None:
+    with patch(_MOCK_TARGET, return_value='') as mock:
+        result = extract_dmarc_record_info('example.com')
+    assert result.valid is False
+    assert result.record is None
+    mock.assert_called_once_with('_dmarc.example.com', DMARC_MARKER, resolver=None, timeout=5)
+
+
 def test_resolver_forwarded() -> None:
     sentinel_resolver = MagicMock(spec=Resolver)
     with patch(_MOCK_TARGET, return_value='v=DMARC1; p=none') as mock:

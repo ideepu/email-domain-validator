@@ -17,7 +17,7 @@ fix commit hook failures, or write a commit message.
 - Stash if any changes and pull the latest master `git pull origin master --rebase`.
 - Branch name must follow the format `type/description`.
 - The type can be one of
-  (chore|test|setup|feature|fix|build|docs|refactor|release).
+  (feature|fix|docs|refactor).
 - Choose the respective `type` from the changes (staged). If none fit, ask.
 - Write a appropriate and concise `description` as per the changes
 
@@ -30,14 +30,12 @@ fix commit hook failures, or write a commit message.
 4. **Never use** `git commit --no-verify`.
 5. **Confirmation**: Must prompt the user for confirmation before
    committing the changes.
-
-## Commit
-
-- Commit message must match:
-  `^(chore|test|setup|feature|fix|build|docs|refactor|release)!?: .+`
-- Prefer short, descriptive (e.g. "feature: Add MX/SPF checks").
-- From repo root: `git commit -m "message"` or `git commit` for editor.
-- If hooks block the commit, fix issues (see linting skill).
+6. Follow the commit message pattern:
+   - Commit message must match:
+     `^(feature|fix|docs|refactor)!?: .+`
+   - Prefer short, descriptive (e.g. "feature: Add MX/SPF checks").
+   - From repo root: `git commit -m "message"` or `git commit` for editor.
+   - If hooks block the commit, fix issues (see linting skill).
 
 ## Branching and push
 

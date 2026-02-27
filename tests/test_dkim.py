@@ -61,3 +61,4 @@ def test_defaults_to_dkim_selectors_list() -> None:
         result = extract_dkim_record_info('example.com')
     # First selector hit -> valid
     assert result.valid is True
+    assert result.record == _VALID_RECORD

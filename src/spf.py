@@ -3,7 +3,6 @@ import re
 from typing import TYPE_CHECKING
 
 import dns.resolver
-from dns.rdatatype import RdataType
 
 from .exceptions import DomainPolicyError
 from .models import (
@@ -12,37 +11,10 @@ from .models import (
     SPFRecordInfo,
     SPFVerificationReport,
 )
+from .utils import get_domain_policy_record
 
 if TYPE_CHECKING:
     from dns.resolver import Resolver
-
-
-def _is_policy_version_valid(policy_record: str, marker: str) -> bool:
-    # The only valid version is the marker and it must be only one instance at the beginning of the record.
-    version_regex = re.compile(f'^{re.escape(marker)}$|^{re.escape(marker)}', re.IGNORECASE)
-    match = version_regex.search(policy_record)
-    if not match or match.start() != 0:
-        return False
-    instances = version_regex.findall(policy_record)
-    return len(instances) == 1
-
-
-def get_domain_policy_record(
-    name: str,
-    marker: str,
-    resolver: 'Resolver | None' = None,
-    timeout: int = 5,
-) -> str:
-    res = resolver or dns.resolver.get_default_resolver()
-    try:
-        txt_records = res.resolve(qname=name, rdtype=RdataType.TXT, lifetime=timeout)
-    except (dns.resolver.NoAnswer, dns.resolver.NXDOMAIN, dns.resolver.LifetimeTimeout) as e:
-        raise DomainPolicyError('Domain policy record not found') from e
-    for record in txt_records:
-        record_text = ''.join(a.decode('utf-8') for a in record.strings)
-        if marker in record_text and _is_policy_version_valid(record_text, marker):
-            return record_text
-    raise DomainPolicyError('Domain policy record not found')
 
 
 def _check_catchall(spf_record: str) -> CatchAllSecurityLevel | None:
@@ -97,6 +69,9 @@ def _extract_includes(spf_record: str, resolver: 'Resolver | None', timeout: int
     include_regex = re.compile(r'\binclude:\S+\b', re.IGNORECASE)
     max_dns_queries = 10
     includes: list[str] = []
+    if not include_regex.search(spf_record):
+        return includes
+
     res = resolver or dns.resolver.get_default_resolver()
 
     def _get_includes_recursive(spf: str) -> None:
@@ -122,14 +97,15 @@ def extract_spf_record_info(domain: str, resolver: 'Resolver | None' = None, tim
     If strict validation is required, use pyspf (sdgathman) or magicspoofing (magichk).
     """
     try:
-        spf_record = get_domain_policy_record(domain, SPF_MARKER, resolver=resolver, timeout=timeout)
+        if spf_record := get_domain_policy_record(domain, SPF_MARKER, resolver=resolver, timeout=timeout):
+            info = SPFRecordInfo(
+                record=spf_record,
+                catchall=_check_catchall(spf_record),
+                deprecated_mechanism=_check_deprecated_mechanism(spf_record),
+                ip_addresses=_check_ip_addresses(spf_record),
+                includes=_extract_includes(spf_record, resolver, timeout),
+            )
+            return SPFVerificationReport(valid=True, info=info)
     except DomainPolicyError:
-        return SPFVerificationReport(valid=False, info=None)
-    info = SPFRecordInfo(
-        record=spf_record,
-        catchall=_check_catchall(spf_record),
-        deprecated_mechanism=_check_deprecated_mechanism(spf_record),
-        ip_addresses=_check_ip_addresses(spf_record),
-        includes=_extract_includes(spf_record, resolver, timeout),
-    )
-    return SPFVerificationReport(valid=True, info=info)
+        pass
+    return SPFVerificationReport(valid=False, info=None)

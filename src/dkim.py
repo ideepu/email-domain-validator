@@ -2,7 +2,7 @@ from typing import TYPE_CHECKING
 
 from .exceptions import DomainPolicyError
 from .models import DKIM_MARKER, DKIM_SELECTORS, DKIMVerificationReport
-from .spf import get_domain_policy_record
+from .utils import get_domain_policy_record
 
 if TYPE_CHECKING:
     from dns.resolver import Resolver

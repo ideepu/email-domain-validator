@@ -16,9 +16,9 @@ pre-commit.
 1. **venv**: Always run all the python packages from `.venv/bin/`
 
 2. **Default**: Run all linters via pre-commit.
-   - First run `pre-commit autoupdate` before running the linters.
-   - From project root: `pre-commit run --all-files`
-   - Install hooks first if needed: `pre-commit install`
+   - First run `.venv/bin/pre-commit autoupdate` before running the linters.
+   - From project root: `.venv/bin/pre-commit run --all-files`
+   - Install hooks first if needed: `.venv/bin/pre-commit install`
 
 3. **Single tool** (only when the user asks for one):
    - Ruff: `ruff check .` then `ruff format .` (or `ruff check --fix`)
@@ -27,14 +27,8 @@ pre-commit.
    - Markdownlint: as in `.pre-commit-config.yaml` for `*.md`
 
 4. **Fix then verify**:
-   - Organize the import with ruff
-   - Always use full paths to the ruff executable. Run check first, then format:
-
-    ```bash
-    .venv/bin/ruff check . --fix && .venv/bin/ruff format .
-    ```
-
-   - After fixing issues, run `pre-commit run --all-files` again.
+   - Organize the imports
+   - After fixing issues, run `.venv/bin/pre-commit run --all-files` again.
 
 ## Project config
 

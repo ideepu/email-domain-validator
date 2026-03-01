@@ -157,6 +157,7 @@ Examples:
 - [disposable-email-domains](https://github.com/disposable-email-domains)
 - [disposable-email-domains (ivolo)](https://github.com/ivolo/disposable-email-domains)
 - [role-based-email-addresses](https://github.com/mixmaxhq/role-based-email-addresses)
+- [burner-email-providers](https://github.com/wesbos/burner-email-providers)
 
 ## Contributing
 

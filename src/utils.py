@@ -28,7 +28,12 @@ def get_domain_policy_record(
     res = resolver or dns.resolver.get_default_resolver()
     try:
         txt_records = res.resolve(qname=name, rdtype=RdataType.TXT, lifetime=timeout)
-    except (dns.resolver.NoAnswer, dns.resolver.NXDOMAIN, dns.resolver.LifetimeTimeout) as e:
+    except (
+        dns.resolver.NoAnswer,
+        dns.resolver.NXDOMAIN,
+        dns.resolver.LifetimeTimeout,
+        dns.resolver.NoNameservers,
+    ) as e:
         raise DomainPolicyError('Domain policy record not found') from e
     for record in txt_records:
         record_text = ''.join(a.decode('utf-8') for a in record.strings)

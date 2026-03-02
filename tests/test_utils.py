@@ -54,6 +54,15 @@ def test_get_domain_policy_record_lifetime_timeout(monkeypatch: pytest.MonkeyPat
         get_domain_policy_record('example.com', 'v=spf1', resolver=dns.resolver.Resolver(), timeout=1)
 
 
+def test_get_domain_policy_record_no_nameservers(monkeypatch: pytest.MonkeyPatch) -> None:
+    def raise_no_nameservers(*_args: object, **_kwargs: object) -> None:
+        raise dns.resolver.NoNameservers()
+
+    monkeypatch.setattr(dns.resolver.Resolver, 'resolve', raise_no_nameservers)
+    with pytest.raises(DomainPolicyError):
+        get_domain_policy_record('example.com', 'v=spf1', resolver=dns.resolver.Resolver(), timeout=1)
+
+
 def test_get_domain_policy_record_no_matching_marker() -> None:
     mock_record = MagicMock()
     mock_record.strings = [b'some-other-txt-record']

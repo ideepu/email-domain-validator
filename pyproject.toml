@@ -1,6 +1,6 @@
 [project]
 name = "email-domain-validator"
-version = "0.1.0"
+version = "0.1.1"
 description = "Validate email and domain (MX, SPF, DMARC, DKIM, SSL)"
 readme = "README.md"
 requires-python = ">=3.14"

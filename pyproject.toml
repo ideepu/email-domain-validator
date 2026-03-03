@@ -55,3 +55,7 @@ warn_unused_ignores = true
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+
+[tool.markdownlint]
+MD013 = { line_length = 120 }
+MD024 = { siblings_only = true }

@@ -52,5 +52,12 @@ repos:
     rev: v0.47.0
     hooks:
       - id: markdownlint
-        args: [--fix]
+        args:
+          [
+            "--config",
+            "pyproject.toml",
+            "--configPointer",
+            "/tool/markdownlint",
+            "--fix",
+          ]
         types: [markdown]
